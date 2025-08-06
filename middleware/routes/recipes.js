@@ -28,21 +28,6 @@ router.get('/', (req, res) => {
   });
 });
 
-// GET one recipe by ID
-router.get('/:id', (req, res) => {
-  const id = req.params.id;
-  db.get('SELECT * FROM recipes WHERE id = ?', [id], (err, row) => {
-    if (err) return res.status(500).json({ error: err.message });
-
-    if (row) {
-      row.ingredients = JSON.parse(row.ingredients);
-      row.steps = JSON.parse(row.steps);
-      res.json(row);
-    } else {
-      res.status(404).json({ error: 'Recipe not found' });
-    }
-  });
-});
 
 
 // GET /recipes/cuisine/:cuisine
@@ -81,6 +66,23 @@ router.get('/category/:category', (req, res) => {
   });
 });
 
+
+
+// GET one recipe by ID
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+  db.get('SELECT * FROM recipes WHERE id = ?', [id], (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    if (row) {
+      row.ingredients = JSON.parse(row.ingredients);
+      row.steps = JSON.parse(row.steps);
+      res.json(row);
+    } else {
+      res.status(404).json({ error: 'Recipe not found' });
+    }
+  });
+});
 
 // CREATE a new recipe
 // router.post('/', (req, res) => {
